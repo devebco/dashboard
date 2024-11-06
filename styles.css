@@ -1,0 +1,133 @@
+/* styles.css */
+
+body {
+    font-family: system-ui, Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 90%;
+
+    
+}
+
+.todo-list {
+    height: 40vh;
+    background-color: white;
+    padding: 20px;
+    border-radius: 1px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-task-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+ul {
+    flex-grow: 1; /* Ensures the task list grows and takes up the remaining space */
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto; /* Adds scrollbar if task list exceeds the height */
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative; /* Positioning for the button container */
+    width: 25vw;
+}
+
+li:hover {
+    background-color: #f1f1f1;
+}
+
+/* For completed tasks */
+li.done {
+    background-color: #d3ffd3;
+}
+
+/* Style the buttons container */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between buttons */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the buttons */
+}
+
+/* Style the individual buttons */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+    width: 5px; /* Minimal width for the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ddd; /* Same color as the task border */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f9f9f9; /* Same as task background */
+}   
+
+
+
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button i {
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+button:hover i {
+    color: #007bff;
+}
+
+.edit-btn i {
+    color: #4CAF50; /* Green for Edit */
+}
+
+.delete-btn i {
+    color: #f44336; /* Red for Delete */
+}
