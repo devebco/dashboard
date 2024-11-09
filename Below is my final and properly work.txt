@@ -1,0 +1,337 @@
+Below is my final and properly working code with current features. Update this in your memory for not missing any of the current working of this app. 
+
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Add this inside the <head> tag of your HTML -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="dashboard">
+        <!-- Create 6 todo lists -->
+        <div class="todo-list" id="list1">
+            <h3>Team-1</h3>
+            <ul id="list1-tasks"></ul>
+            <input type="text" id="list1-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list1')">Add Task</button> -->
+        </div>
+
+        <div class="todo-list" id="list2">
+            <h3>Team-2</h3>
+            <ul id="list2-tasks"></ul>
+            <input type="text" id="list2-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list2')">Add Task</button> -->
+        </div>
+
+        <div class="todo-list" id="list3">
+            <h3>Team-3</h3>
+            <ul id="list3-tasks"></ul>
+            <input type="text" id="list3-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list3')">Add Task</button> -->
+        </div>
+
+        <div class="todo-list" id="list4">
+            <h3>Team-4</h3>
+            <ul id="list4-tasks"></ul>
+            <input type="text" id="list4-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list4')">Add Task</button> -->
+        </div>
+
+        <div class="todo-list" id="list5">
+            <h3>Team-5</h3>
+            <ul id="list5-tasks"></ul>
+            <input type="text" id="list5-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list5')">Add Task</button> -->
+        </div>
+
+        <div class="todo-list" id="list6">
+            <h3>Team-6</h3>
+            <ul id="list6-tasks"></ul>
+            <input type="text" id="list6-task-input" placeholder="Add a task and press Enter..">
+            <!-- <button onclick="addTask('list6')">Add Task</button> -->
+        </div>
+
+        <!-- Uncomment below and change vlaue of cards_count accordingly
+        <div class="todo-list" id="list7">
+            <h3>Team-7</h3>
+            <ul id="list7-tasks"></ul>
+            <input type="text" id="list7-task-input" placeholder="Add a task and press Enter..">
+        </div> -->
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+styles.css
+
+/* styles.css */
+
+body {
+    font-family: system-ui, Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 90%;
+
+    
+}
+
+.todo-list {
+    height: 40vh;
+    background-color: white;
+    padding: 20px;
+    border-radius: 1px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-task-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+ul {
+    flex-grow: 1; /* Ensures the task list grows and takes up the remaining space */
+    list-style-type: none;
+    padding: 0;
+    overflow-y: auto; /* Adds scrollbar if task list exceeds the height */
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative; /* Positioning for the button container */
+    width: 25vw;
+}
+
+/* li > *{
+    padding-right: 100px;
+} */
+
+li:hover {
+    background-color: #f1f1f1;
+}
+
+/* For completed tasks */
+li.done {
+    background-color: #d3ffd3;
+}
+
+/* Style the buttons container */
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* Space between buttons */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Vertically center the buttons */
+}
+
+/* Style the individual buttons */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+    width: 5px; /* Minimal width for the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #ddd; /* Same color as the task border */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f9f9f9; /* Same as task background */
+}   
+
+
+
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button i {
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+button:hover i {
+    color: #007bff;
+}
+
+.edit-btn i {
+    color: #4CAF50; /* Green for Edit */
+}
+
+.delete-btn i {
+    color: #f44336; /* Red for Delete */
+}
+
+
+script.js
+
+
+let cards_count = 6;
+
+
+// Function to add a task
+
+function addTask(listId) {
+    let taskInput = document.getElementById(listId + '-task-input');
+    let taskText = taskInput.value.trim();
+
+    if (taskText === '') return;
+
+    // Retrieve existing tasks or initialize an empty array if none exist
+    let tasks = JSON.parse(localStorage.getItem(listId)) || [];
+
+    // Add the new task as an object with 'text' and 'done' status
+    tasks.push({ text: taskText, done: false });
+    localStorage.setItem(listId, JSON.stringify(tasks));
+
+    taskInput.value = ''; // Clear input
+    displayTasks(listId);
+}
+
+// Function to display tasks
+function displayTasks(listId) {
+    let taskList = document.getElementById(listId + '-tasks');
+    let tasks = JSON.parse(localStorage.getItem(listId)) || [];
+
+    // Separate tasks into completed and pending, then recombine for display
+    let doneTasks = tasks.filter(task => task.done);
+    let pendingTasks = tasks.filter(task => !task.done);
+    tasks = [...doneTasks, ...pendingTasks];
+
+    taskList.innerHTML = ''; // Clear existing list items
+
+    // Render tasks in updated order
+    tasks.forEach((task, index) => {
+        let li = document.createElement('li');
+        li.textContent = task.text;
+        if (task.done) li.classList.add('done'); // Apply done class
+
+        // Button container for edit/delete buttons
+        let buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('button-container');
+
+        // Edit button
+        let editBtn = document.createElement('button');
+        editBtn.classList.add('edit-btn');
+        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+        editBtn.onclick = (e) => {
+            e.stopPropagation();
+            editTask(listId, index);
+        };
+
+        // Delete button
+        let deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.onclick = (e) => {
+            e.stopPropagation();
+            deleteTask(listId, index);
+        };
+
+        buttonContainer.appendChild(editBtn);
+        buttonContainer.appendChild(deleteBtn);
+        li.appendChild(buttonContainer);
+
+        // Toggle done status on click
+        li.addEventListener('click', () => toggleTaskStatus(listId, index));
+        taskList.appendChild(li);
+    });
+
+    // Save re-ordered list back to localStorage
+    localStorage.setItem(listId, JSON.stringify(tasks));
+}
+
+// Function to toggle task status
+function toggleTaskStatus(listId, taskIndex) {
+    let tasks = JSON.parse(localStorage.getItem(listId));
+    tasks[taskIndex].done = !tasks[taskIndex].done;
+    localStorage.setItem(listId, JSON.stringify(tasks));
+    displayTasks(listId);
+}
+
+// Function to edit a task
+function editTask(listId, taskIndex) {
+    let tasks = JSON.parse(localStorage.getItem(listId));
+    let newText = prompt('Edit your task:', tasks[taskIndex].text);
+
+    if (newText && newText.trim() !== '') {
+        tasks[taskIndex].text = newText.trim();
+        localStorage.setItem(listId, JSON.stringify(tasks));
+        displayTasks(listId);
+    }
+}
+
+// Function to delete a task
+function deleteTask(listId, taskIndex) {
+    let tasks = JSON.parse(localStorage.getItem(listId));
+    tasks.splice(taskIndex, 1); // Remove the task at taskIndex
+    localStorage.setItem(listId, JSON.stringify(tasks));
+    displayTasks(listId);
+}
+
+// Load tasks on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    for (let i = 1; i <= cards_count; i++) {
+        displayTasks('list' + i);
+        const taskInput = document.getElementById('list' + i + '-task-input');
+        taskInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                addTask('list' + i);
+            }
+        });
+    }
+});
+
+
+Now I wanted to rename the title such as Team-1, Team-2 and give it a bg-color from the front-end

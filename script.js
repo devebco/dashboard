@@ -1,48 +1,35 @@
 let cards_count = 6;
 
-
-// Function to add a task
-
 function addTask(listId) {
     let taskInput = document.getElementById(listId + '-task-input');
+    console.log("taskInput is : " & taskInput)
     let taskText = taskInput.value.trim();
-
     if (taskText === '') return;
 
-    // Retrieve existing tasks or initialize an empty array if none exist
     let tasks = JSON.parse(localStorage.getItem(listId)) || [];
-
-    // Add the new task as an object with 'text' and 'done' status
     tasks.push({ text: taskText, done: false });
     localStorage.setItem(listId, JSON.stringify(tasks));
-
-    taskInput.value = ''; // Clear input
+    taskInput.value = '';
     displayTasks(listId);
 }
 
-// Function to display tasks
 function displayTasks(listId) {
     let taskList = document.getElementById(listId + '-tasks');
+    console.log("taskList is : " & taskList)
     let tasks = JSON.parse(localStorage.getItem(listId)) || [];
-
-    // Separate tasks into completed and pending, then recombine for display
     let doneTasks = tasks.filter(task => task.done);
     let pendingTasks = tasks.filter(task => !task.done);
     tasks = [...doneTasks, ...pendingTasks];
+    taskList.innerHTML = '';
 
-    taskList.innerHTML = ''; // Clear existing list items
-
-    // Render tasks in updated order
     tasks.forEach((task, index) => {
         let li = document.createElement('li');
         li.textContent = task.text;
-        if (task.done) li.classList.add('done'); // Apply done class
+        if (task.done) li.classList.add('done');
 
-        // Button container for edit/delete buttons
         let buttonContainer = document.createElement('div');
         buttonContainer.classList.add('button-container');
 
-        // Edit button
         let editBtn = document.createElement('button');
         editBtn.classList.add('edit-btn');
         editBtn.innerHTML = '<i class="fas fa-edit"></i>';
@@ -51,7 +38,6 @@ function displayTasks(listId) {
             editTask(listId, index);
         };
 
-        // Delete button
         let deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-btn');
         deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
@@ -64,16 +50,13 @@ function displayTasks(listId) {
         buttonContainer.appendChild(deleteBtn);
         li.appendChild(buttonContainer);
 
-        // Toggle done status on click
         li.addEventListener('click', () => toggleTaskStatus(listId, index));
         taskList.appendChild(li);
     });
 
-    // Save re-ordered list back to localStorage
     localStorage.setItem(listId, JSON.stringify(tasks));
 }
 
-// Function to toggle task status
 function toggleTaskStatus(listId, taskIndex) {
     let tasks = JSON.parse(localStorage.getItem(listId));
     tasks[taskIndex].done = !tasks[taskIndex].done;
@@ -81,11 +64,9 @@ function toggleTaskStatus(listId, taskIndex) {
     displayTasks(listId);
 }
 
-// Function to edit a task
 function editTask(listId, taskIndex) {
     let tasks = JSON.parse(localStorage.getItem(listId));
     let newText = prompt('Edit your task:', tasks[taskIndex].text);
-
     if (newText && newText.trim() !== '') {
         tasks[taskIndex].text = newText.trim();
         localStorage.setItem(listId, JSON.stringify(tasks));
@@ -93,15 +74,13 @@ function editTask(listId, taskIndex) {
     }
 }
 
-// Function to delete a task
 function deleteTask(listId, taskIndex) {
     let tasks = JSON.parse(localStorage.getItem(listId));
-    tasks.splice(taskIndex, 1); // Remove the task at taskIndex
+    tasks.splice(taskIndex, 1);
     localStorage.setItem(listId, JSON.stringify(tasks));
     displayTasks(listId);
 }
 
-// Load tasks on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     for (let i = 1; i <= cards_count; i++) {
         displayTasks('list' + i);
@@ -110,6 +89,38 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.key === 'Enter') {
                 addTask('list' + i);
             }
+        });
+
+        let titleElement = document.getElementById('list' + i).querySelector('.title-container h3');
+        let savedTitle = localStorage.getItem('title_' + 'list' + i);
+        let savedColor = localStorage.getItem('bgcolor_' + 'list' + i);
+
+        if (savedTitle) titleElement.textContent = savedTitle;
+        if (savedColor) document.getElementById('list' + i).style.backgroundColor = savedColor;
+
+        titleElement.addEventListener('click', () => {
+            let input = document.createElement('input');
+            input.type = 'text';
+            input.value = titleElement.textContent;
+            titleElement.replaceWith(input);
+            input.focus();
+
+            input.addEventListener('blur', () => {
+                titleElement.textContent = input.value;
+                input.replaceWith(titleElement);
+                localStorage.setItem('title_' + 'list' + i, titleElement.textContent);
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') input.blur();
+            });
+        });
+
+        let colorPicker = document.getElementById('list' + i).querySelector('.color-picker');
+        colorPicker.value = savedColor || '#ffffff';
+        colorPicker.addEventListener('input', () => {
+            document.getElementById('list' + i).style.backgroundColor = colorPicker.value;
+            localStorage.setItem('bgcolor_' + 'list' + i, colorPicker.value);
         });
     }
 });
